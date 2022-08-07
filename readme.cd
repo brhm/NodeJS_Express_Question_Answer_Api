@@ -1,0 +1,4 @@
+npm init
+npm install express
+npm install nodemon 
+npm install dotenv # değişkenleri yönetmek için kullanacağımız paket.
