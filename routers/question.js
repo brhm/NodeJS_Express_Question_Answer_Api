@@ -5,7 +5,11 @@ const router=express.Router();
 
 router.get("/",(req,res)=>{
 
-    res.send("Question Home Page 01");
+    res.
+    status(200)
+    .json({
+        success:true
+    });
 });
 
 router.get("/delete",(req,res)=>{
