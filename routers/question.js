@@ -5,7 +5,7 @@ const router=express.Router();
 
 router.get("/",(req,res)=>{
 
-    res.send("Question Home Page");
+    res.send("Question Home Page 01");
 });
 
 router.get("/delete",(req,res)=>{

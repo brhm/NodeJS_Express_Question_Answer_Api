@@ -1,8 +1,8 @@
 const express=require("express")
 const dotenv=require("dotenv");
-const question=require("./routers/question");
-const auth=require("./routers/auth");
+
 const { application } = require("express");
+const routers = require("./routers");//./routers/index.js=./routers
 
 const app=express()
 
@@ -18,8 +18,7 @@ const PORT=process.env.PORT;
 
 //Routers Middleware
 
-app.use("/api/questions",question);
-app.use("/api/auth",auth);
+app.use("/api",routers);
 
 
 app.listen(PORT,()=>{
