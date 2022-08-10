@@ -11,3 +11,4 @@ npm install dotenv # değişkenleri yönetmek için kullanacağımız paket.
 4-Controllers
 5-Models
 
+RUN : nodemon run
