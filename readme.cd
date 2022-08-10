@@ -2,3 +2,12 @@ npm init
 npm install express
 npm install nodemon 
 npm install dotenv # değişkenleri yönetmek için kullanacağımız paket.
+
+5 katmandan oluşacak proje
+
+1-Helpers
+2-Middlewares
+3-Routes
+4-Controllers
+5-Models
+
