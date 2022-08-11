@@ -15,3 +15,4 @@ RUN : nodemon run
 
 --- Create Controllers
 --- Connection to Mongo DB with Mongoose => npm install mongoose
+--- update mongoose settings.
