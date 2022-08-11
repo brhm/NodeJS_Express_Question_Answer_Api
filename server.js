@@ -1,12 +1,9 @@
 const express=require("express")
 const dotenv=require("dotenv");
+const connectDatabase=require("./helpers/database/connectDatabase");
 
 const { application } = require("express");
 const routers = require("./routers");//./routers/index.js=./routers
-
-const app=express()
-
-
 
 
 // Enviroment Variables
@@ -14,10 +11,15 @@ dotenv.config({
     path:"./config/env/config.env"
 });
 
+// MongoDb Connection
+connectDatabase();
+
+
+const app=express()
+
 const PORT=process.env.PORT;
 
 //Routers Middleware
-
 app.use("/api",routers);
 
 
