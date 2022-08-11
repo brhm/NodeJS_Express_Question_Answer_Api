@@ -14,4 +14,4 @@ npm install dotenv # değişkenleri yönetmek için kullanacağımız paket.
 RUN : nodemon run
 
 --- Create Controllers
---- Connection to Mongo DB with Mongoose 
+--- Connection to Mongo DB with Mongoose => npm install mongoose
