@@ -1,20 +1,10 @@
 const express =require("express");
+const {getAllQuestions}=require("../controllers/question"); 
 
 //api/question
 const router=express.Router();
 
-router.get("/",(req,res)=>{
+router.get("/",getAllQuestions);
 
-    res.
-    status(200)
-    .json({
-        success:true
-    });
-});
-
-router.get("/delete",(req,res)=>{
-
-    res.send("Question Delete Page");
-});
 
 module.exports=router;

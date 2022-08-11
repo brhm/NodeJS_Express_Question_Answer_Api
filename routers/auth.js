@@ -1,17 +1,11 @@
 const express =require("express");
+const {register}=require("../controllers/auth");
 
 
 //api/auth
 const router=express.Router();
 
-router.get("/",(req,res)=>{
+router.post("/register",register);
 
-    res.send("Auth Home Page");
-});
-
-router.get("/register",(req,res)=>{
-
-    res.send("Auth Register Page");
-});
 
 module.exports=router;
