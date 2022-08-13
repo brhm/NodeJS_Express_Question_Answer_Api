@@ -22,6 +22,12 @@ const register=async (req,res,next)=>{
     })
 };
 
+const errorTest=(req,res,next)=>
+{
+    //some code
+    throw new Error("Bir hata oluştu");
+};
 module.exports={
-    register
+    register,
+    errorTest
 }

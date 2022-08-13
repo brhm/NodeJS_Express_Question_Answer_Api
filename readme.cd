@@ -16,3 +16,7 @@ RUN : nodemon run
 --- Create Controllers
 --- Connection to Mongo DB with Mongoose => npm install mongoose
 --- update mongoose settings.
+
+Error Handler.
+
+Asenkron fonksiyonlarıdaki hata mesajlarını Error handler ile normalde yakalayamayız. bu yüzden try catch yapısı kullanarak yakalarız.
