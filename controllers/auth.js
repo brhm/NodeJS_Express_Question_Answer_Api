@@ -3,18 +3,17 @@ const CustomError=require("../helpers/error/CustomError");
 const asyncErrorWrapper=require("express-async-handler"); // bu asynchandler sayesinde try catch leri kullanmadan hataları Custom Error Handlera yönlendirilmesini sağlıyoruz.
 
 const register= asyncErrorWrapper (async(req,res,next)=>{
-    // post data 
+    //Post Data
+    // Note : async ,await  -- Async methotlarda hataları yakalamak için try catch kullanmalıyız.  express-async-handler sayesinde try catch kullanmamıza gerek kalmadı
+    console.log(req.body)
 
-    const name="medya keskin";
-    const email="medyaydin@gmail.com";
-    const password="123qwe";
-
-    // async ,await  -- Async methotlarda hataları yakalamak için try catch kullanmalıyız.
+    const{name,email,password,role}=req.body;
 
     const user= await User.create({
         name,
         email,
-        password
+        password,
+        role
     });
 
     res.status(200)
