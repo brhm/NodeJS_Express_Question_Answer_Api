@@ -20,3 +20,7 @@ RUN : nodemon run
 Error Handler.
 
 Asenkron fonksiyonlarıdaki hata mesajlarını Error handler ile normalde yakalayamayız. bu yüzden try catch yapısı kullanarak yakalarız.
+
+--- npm install express-async-handler  
+--- npm install bcryptjs  => password hashlemek için.
+

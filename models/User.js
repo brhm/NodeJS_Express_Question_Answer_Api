@@ -1,4 +1,5 @@
 const mongoose=require("mongoose");
+var bcrypt = require('bcryptjs');
 
 const Schema=mongoose.Schema;
 
@@ -52,7 +53,28 @@ const UserSchema=new Schema({
         default:false
     }
 });
+// mongoose hooks ile kayıt işleminden hemen önce aşağıdaki per ile araya giriyoruz. mongoose middleware pre.
+UserSchema.pre("save",function(next){
 
+    console.log("Pre hooks : Save");
+    console.log(this);
+    console.log(this.password);
+// Parola Değişmediyse
+    if(!this.isModified("password")){
+        next();
+    }
+
+    bcrypt.genSalt(10, (err, salt) =>{
+        if(err) next(err);
+        bcrypt.hash(this.password, salt, (err, hash) =>
+         {   // Store hash in your password DB.
+            if(err)
+            next(err);
+            this.password=hash;
+            next();
+        });
+    });    
+});
 module.exports=mongoose.model("User",UserSchema);
 //users 
 
