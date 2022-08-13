@@ -1,7 +1,7 @@
 const User=require("../models/User");
 const CustomError=require("../helpers/error/CustomError");
 const { JsonWebTokenError } = require("jsonwebtoken");
-const sendJwtToClient=require("../helpers/authorization/sendJwtToClient");
+const {sendJwtToClient}=require("../helpers/authorization/tokenHelpers");
 const asyncErrorWrapper=require("express-async-handler"); // bu asynchandler sayesinde try catch leri kullanmadan hataları Custom Error Handlera yönlendirilmesini sağlıyoruz.
 
 
@@ -18,9 +18,18 @@ const register= asyncErrorWrapper (async(req,res,next)=>{
         password,
         role
     });
-sendJwtToClient(user,res);
+
+    sendJwtToClient(user,res);
 
 });
+
+const tokentest=(req,res,next)=>
+{
+    res.json({
+        success:true,
+        message:"Welcame"
+    })    
+};
 
 const errorTest=(req,res,next)=>
 {
@@ -31,5 +40,6 @@ const errorTest=(req,res,next)=>
 };
 module.exports={
     register,
-    errorTest
+    errorTest,
+    tokentest
 }
