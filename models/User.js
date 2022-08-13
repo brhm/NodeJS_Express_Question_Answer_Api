@@ -1,5 +1,7 @@
 const mongoose=require("mongoose");
 var bcrypt = require('bcryptjs');
+const { json } = require("express");
+const jwt=require("jsonwebtoken");
 
 const Schema=mongoose.Schema;
 
@@ -11,7 +13,7 @@ const UserSchema=new Schema({
     email:{
         type:String,
         required:[true,"Please Provide Email"],
-        unique:[true,"Please try different email"],
+        unique:true,
         match:[
             /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 
             'Please fill a valid email address'
@@ -53,7 +55,23 @@ const UserSchema=new Schema({
         default:false
     }
 });
+
+// UserSchema  Methods
+UserSchema.methods.generateJwtFromUser=function(){
+    const {JWT_SECRET_KEY,JWT_EXPIRE}=process.env;
+
+    const payload={
+        id:this._id,
+        name:this.name
+    }
+    const token=jwt.sign(payload,JWT_SECRET_KEY,{
+        expiresIn:JWT_EXPIRE
+    });
+    return token;
+}
+
 // mongoose hooks ile kayıt işleminden hemen önce aşağıdaki per ile araya giriyoruz. mongoose middleware pre.
+// Pre hooks
 UserSchema.pre("save",function(next){
 
     console.log("Pre hooks : Save");

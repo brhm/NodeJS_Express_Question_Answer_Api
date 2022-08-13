@@ -4,6 +4,8 @@ const customErrorHandler=(err,req,res,next)=>{
 let customError=err;
 console.log(customError.name,customError.message,customError.status);
 
+console.log(err.name);
+
     if(err.name==="SyntaxError")
     {
         customError=new CustomError("Unexpented Syntax",400);
@@ -12,7 +14,13 @@ console.log(customError.name,customError.message,customError.status);
     {
         customError=new CustomError(err.message,400);
     }
-    
+
+    if(err.code===11000)
+    {
+        // Duplicate Key
+        customError=new CustomError("Du*licate Key Found : Check Your Input",400);
+    }
+
     res.status(customError.status || 500)
     .json({
         success:false,
