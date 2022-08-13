@@ -1,4 +1,5 @@
 const User=require("../models/User");
+const CustomError=require("../helpers/error/CustomError");
 
 const register=async (req,res,next)=>{
     // post data 
@@ -29,7 +30,9 @@ try{
 const errorTest=(req,res,next)=>
 {
     //some code
-    throw new Error("Bir hata oluştu");
+    // Question Does Not Exist
+
+    return next(new CustomError("Custom Error Message",400));
 };
 module.exports={
     register,

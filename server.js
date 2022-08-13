@@ -1,7 +1,7 @@
 const express=require("express")
 const dotenv=require("dotenv");
 const connectDatabase=require("./helpers/database/connectDatabase");
-const customErrorHandler=require("./middleware/customErrorHandler");
+const customErrorHandler=require("./middleware/errors/customErrorHandler");
 
 const { application } = require("express");
 const routers = require("./routers");//./routers/index.js=./routers
