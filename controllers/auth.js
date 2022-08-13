@@ -7,8 +7,8 @@ const register=async (req,res,next)=>{
     const email="medyaydin@gmail.com";
     const password="123qwe";
 
-    // async ,await 
-
+    // async ,await  -- Async methotlarda hataları yakalamak için try catch kullanmalıyız.
+try{
     const user= await User.create({
         name,
         email,
@@ -20,6 +20,10 @@ const register=async (req,res,next)=>{
         success:true,
         data:user
     })
+}catch(err){
+    return next(err);
+    
+}
 };
 
 const errorTest=(req,res,next)=>
