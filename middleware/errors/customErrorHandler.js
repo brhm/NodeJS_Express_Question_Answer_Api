@@ -2,7 +2,6 @@ const CustomError=require("../../helpers/error/CustomError");
 const customErrorHandler=(err,req,res,next)=>{
   
 let customError=err;
-console.log(customError.name,customError.message,customError.status);
 
 console.log(err.name);
 
