@@ -6,7 +6,6 @@ const {validateUserInput, comparePassword}=require("../helpers/input/inputHelper
 const sendEmail=require("../helpers/libraries/sendEmail");
 
 const asyncErrorWrapper=require("express-async-handler"); // bu asynchandler sayesinde try catch leri kullanmadan hataları Custom Error Handlera yönlendirilmesini sağlıyoruz.
-const { use } = require("../routers/auth");
 
 const register= asyncErrorWrapper (async(req,res,next)=>{
     //Post Data
