@@ -23,6 +23,18 @@ const register= asyncErrorWrapper (async(req,res,next)=>{
 
 });
 
+const getUser=(req,res,next)=>
+{
+    res.json({
+        success:true,
+        data:{
+            id:req.user.id,
+            name:req.user.name
+        }
+    })    
+};
+
+
 const tokentest=(req,res,next)=>
 {
     res.json({
@@ -40,6 +52,7 @@ const errorTest=(req,res,next)=>
 };
 module.exports={
     register,
+    getUser,
     errorTest,
     tokentest
 }
