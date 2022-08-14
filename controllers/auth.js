@@ -3,8 +3,10 @@ const CustomError=require("../helpers/error/CustomError");
 const { JsonWebTokenError } = require("jsonwebtoken");
 const {sendJwtToClient}=require("../helpers/authorization/tokenHelpers");
 const {validateUserInput, comparePassword}=require("../helpers/input/inputHelpers");
-const asyncErrorWrapper=require("express-async-handler"); // bu asynchandler sayesinde try catch leri kullanmadan hataları Custom Error Handlera yönlendirilmesini sağlıyoruz.
+const sendEmail=require("../helpers/libraries/sendEmail");
 
+const asyncErrorWrapper=require("express-async-handler"); // bu asynchandler sayesinde try catch leri kullanmadan hataları Custom Error Handlera yönlendirilmesini sağlıyoruz.
+const { use } = require("../routers/auth");
 
 const register= asyncErrorWrapper (async(req,res,next)=>{
     //Post Data
@@ -71,13 +73,38 @@ const forgotpassword=asyncErrorWrapper(async(req,res,next)=>{
     const resetPasswordToken=user.getResetPasswordTokenFromUser();
 
     await user.save();
+
+    const resetPasswordUrl=`http://localhost:5000/api/auth/resetpassword?resetPasswordToken=${resetPasswordToken}`;
+
+    const emailTemplate=`<h3>Reset Your Password</h3>
+    <p>This <a href='${resetPasswordUrl}' target='_blank'>link </a> will expire in 1 hour</p>
+    `;
+console.log(resetPasswordUrl);
+try{
+    await sendEmail({
+        from:process.env.SMTP_USER,
+        to:resetEmail,
+        subject:"Reset Your Password",
+        html:emailTemplate
+    });
     
     res.status(200).json({
         success:true,
         message:"Token Sent to Your Email"
     })
 
-})
+
+}catch(err){
+
+    console.log("try send mail catch "+err)
+    user.resetPasswordToken=undefined;
+    user.resetPasswordExpire=undefined;
+
+    await user.save();
+
+    return next(new CustomError("Email Could not be sent",500));
+}
+});
 
 const getUser=(req,res,next)=>
 {

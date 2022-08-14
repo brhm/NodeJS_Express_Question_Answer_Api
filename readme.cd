@@ -30,3 +30,6 @@ npm install jsonwebtoken
 
 -- Upload images
 npm install multer
+
+-- Send mail
+npm install nodemailer

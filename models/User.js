@@ -90,16 +90,18 @@ UserSchema.methods.getResetPasswordTokenFromUser=function(){
     this.resetPasswordToken=resetPasswordToken;
     this.resetPasswordExpire=Date.now()+parseInt(RESET_PASSWORD_EXPIRE);
     
+    return resetPasswordToken;
 }
 // mongoose hooks ile kayıt işleminden hemen önce aşağıdaki per ile araya giriyoruz. mongoose middleware pre.
 // Pre hooks
 UserSchema.pre("save",function(next){
 
     console.log("Pre hooks : Save");
-    console.log(this);
-    console.log(this.password);
+
 // Parola Değişmediyse
     if(!this.isModified("password")){
+        console.log("isModified : password");
+
         next();
     }
 
