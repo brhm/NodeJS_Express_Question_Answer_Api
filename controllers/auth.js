@@ -2,6 +2,7 @@ const User=require("../models/User");
 const CustomError=require("../helpers/error/CustomError");
 const { JsonWebTokenError } = require("jsonwebtoken");
 const {sendJwtToClient}=require("../helpers/authorization/tokenHelpers");
+const {validateUserInput, comparePassword}=require("../helpers/input/inputHelpers");
 const asyncErrorWrapper=require("express-async-handler"); // bu asynchandler sayesinde try catch leri kullanmadan hataları Custom Error Handlera yönlendirilmesini sağlıyoruz.
 
 
@@ -23,6 +24,25 @@ const register= asyncErrorWrapper (async(req,res,next)=>{
 
 });
 
+
+const login=asyncErrorWrapper(async(req,res,next)=>{
+
+    const {email,password}=req.body;
+
+    if(!validateUserInput(email,password))
+    {
+        return next(new CustomError("Please check your inputs",400));
+    }
+
+    const user= await User.findOne({email}).select("+password"); // user clası oluşturduğumuzda password alanının select değerini false yaptık bu yüzden normal sorguda password sorga gelmez. gelmesini sağlamak için sorguya select eklememiz gerekiyor.
+    
+    if(!comparePassword(password,user.password))
+    {
+        return next(new CustomError("Please check your credentials",400));
+    }
+    sendJwtToClient(user,res);
+   
+});
 const getUser=(req,res,next)=>
 {
     res.json({
@@ -53,6 +73,7 @@ const errorTest=(req,res,next)=>
 module.exports={
     register,
     getUser,
+    login,
     errorTest,
     tokentest
 }
