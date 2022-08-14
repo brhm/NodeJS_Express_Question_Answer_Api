@@ -59,6 +59,8 @@ const logout=asyncErrorWrapper(async(req,res,next)=>{
    })
    
 });
+
+
 const getUser=(req,res,next)=>
 {
     res.json({
@@ -70,6 +72,24 @@ const getUser=(req,res,next)=>
     })    
 };
 
+const imageUpload=asyncErrorWrapper(async(req,res,next)=>{
+
+   // image upload success
+
+   const user=await User.findByIdAndUpdate(req.user.id,{
+    "profil_image":req.savedProfileImage
+   },{
+    new:true, // güncellenmemiş user almak için new true dememiz gerekiyor.
+    runValidators:true
+   });
+
+   return res.status(200)
+   .json({
+    success:true,
+    message:"Image Upload Success",
+    data:user
+   });    
+ });
 
 const tokentest=(req,res,next)=>
 {
@@ -91,6 +111,7 @@ module.exports={
     getUser,
     login,
     logout,
+    imageUpload,
     errorTest,
     tokentest
 }

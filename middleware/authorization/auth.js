@@ -16,7 +16,7 @@ const getAccessToRoute=(req,res,next)=>{
     }
 
     const access_token=getAccessTokenFromHeader(req);
-
+    
     jwt.verify(access_token,JWT_SECRET_KEY,(err,decoded)=>{
         if(err)
         {

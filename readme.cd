@@ -27,3 +27,6 @@ Asenkron fonksiyonlarıdaki hata mesajlarını Error handler ile normalde yakala
 --- JWT 
 npm install jsonwebtoken
  -- 
+
+-- Upload images
+npm install multer
