@@ -1,5 +1,5 @@
 const express =require("express");
-const {register,getUser,login,logout,imageUpload,forgotpassword,errorTest, tokentest}=require("../controllers/auth");
+const {register,getUser,login,logout,imageUpload,forgotpassword,resetPassword,errorTest, tokentest}=require("../controllers/auth");
 const {getAccessToRoute}=require("../middleware/authorization/auth");
 const profileImageUpload=require("../middleware/libraries/profileImageUpload");
 
@@ -14,6 +14,7 @@ router.post("/logout",getAccessToRoute,logout);
 router.get("/profile",getAccessToRoute,getUser);
 router.post("/upload",[getAccessToRoute,profileImageUpload.single("profile_image")],imageUpload);
 router.post("/forgotpassword",forgotpassword);
+router.put("/resetpassword",resetPassword);
 
 
 router.post("/tokentest",getAccessToRoute,tokentest);

@@ -106,6 +106,36 @@ try{
 }
 });
 
+const resetPassword=asyncErrorWrapper(async(req,res,next)=>{
+    const {resetPasswordToken}=req.query;
+    const {password}=req.body;
+
+    if(!resetPasswordToken)
+    {
+        return next(new CustomError("Please provide a valid token",400));
+    }
+    let user=await User.findOne({
+        resetPasswordToken:resetPasswordToken,
+        resetPasswordExpire: {$gt:Date.now()} // mongo db expire date küçük ise
+    });
+    if(!user)
+    {
+        return next(new CustomError("Invalid token or Session Expired",400))
+    }
+    user.password=password;
+    user.resetPasswordToken=undefined;
+    user.resetPasswordExpire=undefined;
+
+    await user.save();
+    
+    return res.status(200)
+    .json({
+        success:true,
+        message:"Reset Password Process Successful"
+    })
+
+});
+
 const getUser=(req,res,next)=>
 {
     res.json({
@@ -158,6 +188,7 @@ module.exports={
     logout,
     imageUpload,
     forgotpassword,
+    resetPassword,
     errorTest,
     tokentest
 }
