@@ -146,6 +146,21 @@ const getUser=(req,res,next)=>
     })    
 };
 
+const editDetails =asyncErrorWrapper(async(req,res,next)=>{
+
+    const editInformation=req.body;
+    const user=await User.findByIdAndUpdate(req.user.id,editInformation,{
+        new:true,
+        runValidators:true
+    });
+
+    return res.status(200).json({
+        success:true,
+        data:user
+    })
+   
+});
+
 const imageUpload=asyncErrorWrapper(async(req,res,next)=>{
 
    // image upload success
@@ -183,6 +198,7 @@ const errorTest=(req,res,next)=>
 module.exports={
     register,
     getUser,
+    editDetails,
     login,
     logout,
     imageUpload,

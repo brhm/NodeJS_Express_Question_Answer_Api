@@ -14,9 +14,25 @@ const blockUser=asyncErrorWapper(async(req,res,next)=>{
     return res.status(200).json({
         success:true,
         message:"Block - UnBlock is successfull"
-            });
-        });
+       });
+});
+
+const deleteUser =asyncErrorWapper(async(req,res,next)=>{
+    const {id}=req.params;
+
+    const user=await User.findById(id);
+
+    await user.remove();
+
+    return res.status(200)
+    .json({
+        success:true,
+        message :"Delete Operation Successful"
+    });
+
+});
 
 module.exports={
-    blockUser
+    blockUser,
+    deleteUser
 }
