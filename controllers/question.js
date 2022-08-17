@@ -27,7 +27,21 @@ const getAllQuestions=asyncErrorHandler(async(req,res,next)=>{
     });
 });
 
+const getSingleQuestion=asyncErrorHandler(async(req,res,next)=>{
+
+    const {id}=req.params;
+    
+    const question=await Question.findById(id);
+
+    return res.status(200)
+    .json({
+        success:true,
+        data:question
+    });
+});
+
 module.exports={
     getAllQuestions,
-    askNewQuestion
+    askNewQuestion,
+    getSingleQuestion
 }

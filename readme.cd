@@ -33,3 +33,6 @@ npm install multer
 
 -- Send mail
 npm install nodemailer
+
+-- slugify => slug -seo için 
+npm install slugify
