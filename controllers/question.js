@@ -17,14 +17,15 @@ const askNewQuestion=asyncErrorHandler(async(req,res,next)=>{
     })
 });
 
-const getAllQuestions=(req,res,next)=>{
+const getAllQuestions=asyncErrorHandler(async(req,res,next)=>{
 
+    const questions=await Question.find({});
     res.status(200)
     .json({
         success:true,
-        body:"All Questions"
+        data:questions
     });
-};
+});
 
 module.exports={
     getAllQuestions,
