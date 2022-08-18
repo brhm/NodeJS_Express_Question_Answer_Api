@@ -30,7 +30,7 @@ const getAllQuestions=asyncErrorHandler(async(req,res,next)=>{
 const getSingleQuestion=asyncErrorHandler(async(req,res,next)=>{
 
     const {id}=req.params;
-    
+
     const question=await Question.findById(id);
 
     return res.status(200)
@@ -40,8 +40,28 @@ const getSingleQuestion=asyncErrorHandler(async(req,res,next)=>{
     });
 });
 
+const editQuestion=asyncErrorHandler(async(req,res,next)=>{
+
+    const {id}=req.params;
+    const {title,content}=req.body;
+    console.log("title:" +title);
+    console.log("id:"+ id);
+    let question=await Question.findById(id);
+    question.title=title;
+    question.content=content;
+
+    question=await question.save();
+
+    return res.status(200)
+    .json({
+        success:true,
+        data:question
+    });    
+});
+
 module.exports={
     getAllQuestions,
     askNewQuestion,
-    getSingleQuestion
+    getSingleQuestion,
+    editQuestion
 }

@@ -47,7 +47,7 @@ const getAdminAccess=asyncErrorWapper(async(req,res,next)=>{
     next();
 });
 const getQuestionOwnerAccess=asyncErrorWapper(async(req,res,next)=>{
-    const id=req.user.id;
+    const userId=req.user.id;
     const questionId=req.params.id;
 
     const question=await Question.findById(questionId);
