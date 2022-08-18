@@ -5,6 +5,7 @@ const jwt=require("jsonwebtoken");
 const crypto=require("crypto");
 const { Console } = require("console");
 const { parse } = require("path");
+const Question = require("./Question");
 
 const Schema=mongoose.Schema;
 
@@ -116,6 +117,13 @@ UserSchema.pre("save",function(next){
         });
     });    
 });
+
+UserSchema.post("remove",async function(){
+    await Question.deleteMany({
+        user:this._id
+    })
+});
+
 module.exports=mongoose.model("User",UserSchema);
 //users 
 
