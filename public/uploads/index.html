@@ -9,3 +9,24 @@
     <h1>This is a static file</h1>
 </body>
 </html>
+<script>
+function initial(){
+
+    var body=document.body,
+    button;
+    let i;
+
+    for(i=0;i<5;i++)
+    {
+        let j=i;
+        button=document.createElement('button');
+        button.innerHTML=`Button ${i}`;
+        button.addEventListener('click',e=>{
+            alert(j);
+        });
+        body.appendChild(button);
+
+    }
+}
+initial();
+</script>

@@ -31,9 +31,13 @@ const QuestionSchema=new Schema({
         type:mongoose.Schema.ObjectId,
         ref:"User"
         }
+    ],
+    answers:[
+        {
+        type:mongoose.Schema.ObjectId,
+        red:"Answer"
+        }
     ]
-
-
 });
 
 QuestionSchema.pre("save",function(next){
