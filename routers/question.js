@@ -3,6 +3,7 @@ const {getSingleQuestion, getAllQuestions,askNewQuestion,editQuestion,deleteQues
 const {checkQuestionExist}=require("../middleware/database/databaseErrorHelpers");
 const {getAccessToRoute,getQuestionOwnerAccess}=require("../middleware/authorization/auth");
 
+const answer=require("./answer");
 //api/question
 const router=express.Router();
 
@@ -14,7 +15,9 @@ router.delete("/:id/delete",[getAccessToRoute,checkQuestionExist,getQuestionOwne
 router.get("/:id/like",[getAccessToRoute,checkQuestionExist,getQuestionOwnerAccess],likeQuestion)
 router.get("/:id/undolike",[getAccessToRoute,checkQuestionExist,getQuestionOwnerAccess],undoLikeQuestion)
 
-
+// question üzerinden answera yönlendirmesi yapıyoruz.
+//api/<quesiont_id>/answers => answer route na yönlendiriyoruz.
+router.use("/:question_id/answers",checkQuestionExist,answer);
 
 
 module.exports=router;
