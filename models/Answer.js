@@ -1,3 +1,4 @@
+const Question =require("./Question");
 const mongoose=require("mongoose");
 const Schema=mongoose.Schema;
 
@@ -28,8 +29,22 @@ const AnswerSchema=new Schema({
         ref:"Question",
         required:true
     }
+});
 
+AnswerSchema.pre("save",async function(next){
+    if(!this.isModified("user"))
+    {
+        return next();
+    }
+    try{
+        const question=await Question.findById(this.question);
+        question.answers.push(this._id);
 
-})
+        await question.save();
+        next();
+    }catch(err){
+        return next(err);
+    }
+});
 
-module.exports=mongoose.mode("Answer",AnswerSchema);
+module.exports=mongoose.model("Answer",AnswerSchema);
