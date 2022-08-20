@@ -22,7 +22,23 @@ const addNewAnswerToQuestion=asyncErrorWrapper(async(req,res,next)=>{
         data:answer
     });
 });
+const getAllAnswersByQuestion=asyncErrorWrapper(async(req,res,next)=>{
+
+    const {question_id}=req.params;
+// populate ile ilişkili olduğu diğer objelerin detayıda çekmiş oluyoruz.
+// qusiton dataki answerlerin detaylarını obje ile çekmiş olacağız
+    const question= await Question.findById(question_id).populate("answers");
+console.log("data : "+question.answers);
+    const answers=question.answers;
+    return res.status(200)
+    .json({
+        success:true,
+        cousnt:answers.length,
+        data:answers
+    });
+});
 
 module.exports={
-    addNewAnswerToQuestion
+    addNewAnswerToQuestion,
+    getAllAnswersByQuestion
 }
