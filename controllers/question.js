@@ -28,6 +28,7 @@ const getAllQuestions=asyncErrorHandler(async(req,res,next)=>{
         select:"name profil_image"
     };
     
+    //search
     if(req.query.search)
     {
         const searchObject={};
@@ -37,11 +38,41 @@ const getAllQuestions=asyncErrorHandler(async(req,res,next)=>{
         //searchObject["title","content"]=regex;
         query=query.where(searchObject);    
     }
+    //populate
     if(populate)// şimdilik değerleri yukarıda statik verdik.
     {
         //query=query.populate(populateValue);
         query=query.populate(populateObject);
     }
+
+    //pagination
+    const page=parseInt(req.query.page)||1;
+    const limit=parseInt(req.query.limit)||5;
+    // 1 2 3 4 5 6 7 8 9 10 - 10 tane
+    // page 1, limit =5 => startIndex=0 endIndex=5
+    //skip(2)
+    //limit(2)
+    const startIndex=(page-1)*limit;
+    const endIndex=page*limit;
+
+    const pagination={};
+    const total=await Question.countDocuments();
+    if(startIndex>0)
+    {
+        pagination.previoues={
+            page:page-1,
+            limit:limit
+        }
+    }
+    if(endIndex<total)
+    {
+        pagination.next={
+            page:page+1,
+            limit:limit
+        }
+    }
+    query=query.skip(startIndex).limit(limit);
+
 
     const questions=await query;
    
@@ -52,6 +83,8 @@ const getAllQuestions=asyncErrorHandler(async(req,res,next)=>{
     res.status(200)
     .json({
         success:true,
+        count:questions.length,
+        pagination:pagination,
         data:questions
     });
 });
