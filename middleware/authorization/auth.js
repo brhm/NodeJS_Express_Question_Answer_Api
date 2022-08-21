@@ -2,6 +2,7 @@ const CustomError=require("../../helpers/error/CustomError");
 const asyncErrorWapper=require("express-async-handler");
 const User=require("../../models/User");
 const Question=require("../../models/Question");
+const Answer = require("../../models/Answer");
 const {isTokenIncluded, getAccessTokenFromHeader}=require("../../helpers/authorization/tokenHelpers");
 const jwt=require("jsonwebtoken");
 
@@ -58,9 +59,22 @@ const getQuestionOwnerAccess=asyncErrorWapper(async(req,res,next)=>{
     }
     next();
 });
+const getAnswerOwnerAccess=asyncErrorWapper(async(req,res,next)=>{
+    const userId=req.user.id;
+    const answerId=req.params.answer_id;
+
+    const answer=await Answer.findById(answerId);
+
+    if(answer.user!=userId)
+    {
+        return next(new CustomError("Only owner can handle this operation",403));
+    }
+    next();
+});
 
 module.exports={
     getAccessToRoute,
     getAdminAccess,
-    getQuestionOwnerAccess
+    getQuestionOwnerAccess,
+    getAnswerOwnerAccess
 };
