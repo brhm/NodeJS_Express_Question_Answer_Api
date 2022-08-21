@@ -35,7 +35,7 @@ const QuestionSchema=new Schema({
     answers:[
         {
         type:mongoose.Schema.ObjectId,
-        red:"Answer"
+        ref:"Answer"
         }
     ]
 });

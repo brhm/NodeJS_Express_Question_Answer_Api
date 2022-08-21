@@ -27,18 +27,43 @@ const getAllAnswersByQuestion=asyncErrorWrapper(async(req,res,next)=>{
     const {question_id}=req.params;
 // populate ile ilişkili olduğu diğer objelerin detayıda çekmiş oluyoruz.
 // qusiton dataki answerlerin detaylarını obje ile çekmiş olacağız
-    const question= await Question.findById(question_id).populate("answers");
-console.log("data : "+question.answers);
+    const question= await Question
+    .findById(question_id)
+    .populate("answers");
+
     const answers=question.answers;
     return res.status(200)
     .json({
         success:true,
-        cousnt:answers.length,
+        count:answers.length,
         data:answers
+    });
+});
+
+const getSingleAnswer=asyncErrorWrapper(async(req,res,next)=>{
+
+    const {answer_id}=req.params;
+    
+    const answer=await Answer
+    .findById(answer_id)
+    .populate({
+        path:"question",
+        select:"title content" // sadece göstermek istediğimiz alanları bu şekilde çekiyoruz.
+    })
+    .populate({
+        path:"user",
+        select:"name email profile_image"
+    });
+    
+    return res.status(200)
+    .json({
+        success:true,
+        data:answer
     });
 });
 
 module.exports={
     addNewAnswerToQuestion,
-    getAllAnswersByQuestion
+    getAllAnswersByQuestion,
+    getSingleAnswer
 }
