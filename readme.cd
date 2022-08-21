@@ -36,3 +36,16 @@ npm install nodemailer
 
 -- slugify => slug -seo için 
 npm install slugify
+
+--dummy data
+ "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js",
+    "import":"nodemon dummy-generator --import",
+    "delete":"nodemon dummy-generator --delete"
+  },
+
+  npm run delete
+  npm run import
+  

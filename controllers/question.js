@@ -19,7 +19,23 @@ const askNewQuestion=asyncErrorHandler(async(req,res,next)=>{
 
 const getAllQuestions=asyncErrorHandler(async(req,res,next)=>{
 
-    const questions=await Question.find({});
+    //console.log(req.query.search);
+    let query=Question.find();
+    if(req.query.search)
+    {
+        const searchObject={};
+
+        const regex=new RegExp(req.query.search,"i");// i => büyük harf küçük harf getir
+        searchObject["title"]=regex;
+        //searchObject["title","content"]=regex;
+        query=query.where(searchObject);    
+    }
+    const questions=await query;
+   
+   /* const questions=await Question.find().where({
+        title:"Title 1"
+    });
+    */
     res.status(200)
     .json({
         success:true,
