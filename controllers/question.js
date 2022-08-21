@@ -21,6 +21,13 @@ const getAllQuestions=asyncErrorHandler(async(req,res,next)=>{
 
     //console.log(req.query.search);
     let query=Question.find();
+    const populate=true;
+    const populateValue="user";
+    const populateObject={
+        path:"user",
+        select:"name profil_image"
+    };
+    
     if(req.query.search)
     {
         const searchObject={};
@@ -30,6 +37,12 @@ const getAllQuestions=asyncErrorHandler(async(req,res,next)=>{
         //searchObject["title","content"]=regex;
         query=query.where(searchObject);    
     }
+    if(populate)// şimdilik değerleri yukarıda statik verdik.
+    {
+        //query=query.populate(populateValue);
+        query=query.populate(populateObject);
+    }
+
     const questions=await query;
    
    /* const questions=await Question.find().where({
