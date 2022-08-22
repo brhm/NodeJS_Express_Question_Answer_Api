@@ -12,8 +12,8 @@ router.get("/:id",checkQuestionExist, getSingleQuestion);
 router.post("/ask", getAccessToRoute,askNewQuestion);
 router.put("/:id/edit",[getAccessToRoute,checkQuestionExist,getQuestionOwnerAccess],editQuestion)
 router.delete("/:id/delete",[getAccessToRoute,checkQuestionExist,getQuestionOwnerAccess],deleteQuestion)
-router.get("/:id/like",[getAccessToRoute,checkQuestionExist,getQuestionOwnerAccess],likeQuestion)
-router.get("/:id/undolike",[getAccessToRoute,checkQuestionExist,getQuestionOwnerAccess],undoLikeQuestion)
+router.get("/:id/like",[getAccessToRoute,checkQuestionExist],likeQuestion)
+router.get("/:id/undolike",[getAccessToRoute,checkQuestionExist],undoLikeQuestion)
 
 // question üzerinden answera yönlendirmesi yapıyoruz.
 //api/<quesiont_id>/answers => answer route na yönlendiriyoruz.

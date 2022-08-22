@@ -87,7 +87,8 @@ const deleteAnswwer=asyncErrorWrapper(async(req,res,next)=>{
     const question=await Question.findById(question_id);
 
     question.answers.splice(question.answers.indexOf(answer_id),1);// answer id sinin question dan silme işlemi. answer arraydaki index üzerinde siliyoruz.
-    
+    question.answerCount=question.answers.length;
+
     await question.save();
 
     return res.status(200)
