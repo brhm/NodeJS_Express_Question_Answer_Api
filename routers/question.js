@@ -3,11 +3,22 @@ const {getSingleQuestion, getAllQuestions,askNewQuestion,editQuestion,deleteQues
 const {checkQuestionExist}=require("../middleware/database/databaseErrorHelpers");
 const {getAccessToRoute,getQuestionOwnerAccess}=require("../middleware/authorization/auth");
 
+const question=require("../models/Question");
 const answer=require("./answer");
+
+const questionQueryMiddleware=require("../middleware/query/questionQueryMiddleware");
+
 //api/question
 const router=express.Router();
 
-router.get("/",getAllQuestions);
+router.get("/",questionQueryMiddleware(
+    question,{
+        population:{
+            path:"user",
+            select:"name profil_image"
+        }
+    }
+),getAllQuestions);
 router.get("/:id",checkQuestionExist, getSingleQuestion);
 router.post("/ask", getAccessToRoute,askNewQuestion);
 router.put("/:id/edit",[getAccessToRoute,checkQuestionExist,getQuestionOwnerAccess],editQuestion)

@@ -18,87 +18,8 @@ const askNewQuestion=asyncErrorHandler(async(req,res,next)=>{
 });
 
 const getAllQuestions=asyncErrorHandler(async(req,res,next)=>{
-
-    //console.log(req.query.search);
-    let query=Question.find();
-    const populate=true;
-    const populateValue="user";
-    const populateObject={
-        path:"user",
-        select:"name profil_image"
-    };
-    
-    //search
-    if(req.query.search)
-    {
-        const searchObject={};
-
-        const regex=new RegExp(req.query.search,"i");// i => büyük harf küçük harf getir
-        searchObject["title"]=regex;
-        //searchObject["title","content"]=regex;
-        query=query.where(searchObject);    
-    }
-    //populate
-    if(populate)// şimdilik değerleri yukarıda statik verdik.
-    {
-        //query=query.populate(populateValue);
-        query=query.populate(populateObject);
-    }
-
-    //pagination
-    const page=parseInt(req.query.page)||1;
-    const limit=parseInt(req.query.limit)||5;
-    // 1 2 3 4 5 6 7 8 9 10 - 10 tane
-    // page 1, limit =5 => startIndex=0 endIndex=5
-    //skip(2)
-    //limit(2)
-    const startIndex=(page-1)*limit;
-    const endIndex=page*limit;
-
-    const pagination={};
-    const total=await Question.countDocuments();
-    if(startIndex>0)
-    {
-        pagination.previoues={
-            page:page-1,
-            limit:limit
-        }
-    }
-    if(endIndex<total)
-    {
-        pagination.next={
-            page:page+1,
-            limit:limit
-        }
-    }
-    query=query.skip(startIndex).limit(limit);
-
-    // sort : req.query.sortBy most-answered most-liked
-    const sortKey=req.query.sortBy;
-    if(sortKey==="most-answered")
-    {
-        query=query.sort("-answerCount -createdAt");
-    }
-    else if(sortKey==="most-liked")
-    {
-        query=query.sort("-likeCount");
-    }else{
-        query=query.sort("-createdAt -createdAt");
-    }
-    
-    const questions=await query;
-   
-   /* const questions=await Question.find().where({
-        title:"Title 1"
-    });
-    */
-    res.status(200)
-    .json({
-        success:true,
-        count:questions.length,
-        pagination:pagination,
-        data:questions
-    });
+   return res.status(200)
+    .json(res.queryResults);
 });
 
 const getSingleQuestion=asyncErrorHandler(async(req,res,next)=>{
