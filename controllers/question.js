@@ -73,7 +73,19 @@ const getAllQuestions=asyncErrorHandler(async(req,res,next)=>{
     }
     query=query.skip(startIndex).limit(limit);
 
-
+    // sort : req.query.sortBy most-answered most-liked
+    const sortKey=req.query.sortBy;
+    if(sortKey==="most-answered")
+    {
+        query=query.sort("-answerCount -createdAt");
+    }
+    else if(sortKey==="most-liked")
+    {
+        query=query.sort("-likeCount");
+    }else{
+        query=query.sort("-createdAt -createdAt");
+    }
+    
     const questions=await query;
    
    /* const questions=await Question.find().where({
