@@ -7,6 +7,8 @@ const question=require("../models/Question");
 const answer=require("./answer");
 
 const questionQueryMiddleware=require("../middleware/query/questionQueryMiddleware");
+const answerQueryMiddleware=require("../middleware/query/answerQueryMiddleware");
+const Question = require("../models/Question");
 
 //api/question
 const router=express.Router();
@@ -19,7 +21,7 @@ router.get("/",questionQueryMiddleware(
         }
     }
 ),getAllQuestions);
-router.get("/:id",checkQuestionExist, getSingleQuestion);
+router.get("/:id",checkQuestionExist,answerQueryMiddleware(Question), getSingleQuestion);
 router.post("/ask", getAccessToRoute,askNewQuestion);
 router.put("/:id/edit",[getAccessToRoute,checkQuestionExist,getQuestionOwnerAccess],editQuestion)
 router.delete("/:id/delete",[getAccessToRoute,checkQuestionExist,getQuestionOwnerAccess],deleteQuestion)
